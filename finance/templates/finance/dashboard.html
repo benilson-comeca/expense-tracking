@@ -1,0 +1,81 @@
+{% extends "finance/base.html" %}
+
+{% block content %}
+
+<h1>💰 Dashboard</h1>
+
+<!-- TOTAL -->
+<div class="card-custom mb-3">
+    <h5>Total Gasto</h5>
+    <h2 class="text-danger">{{ total }} ₽</h2>
+</div>
+
+<!-- HOJE / MÊS / ANO -->
+<div class="card-custom mb-3">
+    <h5>Gasto de Hoje</h5>
+    <h3>{{ total_today }} ₽</h3>
+</div>
+
+<div class="card-custom mb-3">
+    <h5>Gasto do Mês</h5>
+    <h3>{{ total_month }} ₽</h3>
+</div>
+
+<div class="card-custom mb-3">
+    <h5>Gasto do Ano</h5>
+    <h3>{{ total_year }} ₽</h3>
+</div>
+
+<!-- GRÁFICO -->
+<div class="card-custom mb-3">
+    <h5>Despesas por categoria</h5>
+    <canvas id="chart"></canvas>
+</div>
+
+<!-- LISTA -->
+<div class="card-custom">
+    <h5>Transações</h5>
+
+    <ul>
+        {% for t in transactions %}
+            <li>{{ t.category }} - {{ t.amount }} ₽</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<a href="/add/" class="btn btn-primary mt-3">Adicionar despesa</a>
+
+<a href="/delete-all/" class="btn btn-danger mt-3"
+   onclick="return confirm('Tens a certeza que queres apagar todas as transações?')">
+    Apagar todas as transações
+</a>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const labels = JSON.parse('{{ labels|escapejs }}');
+    const data = JSON.parse('{{ data|escapejs }}');
+
+    new Chart(document.getElementById('chart'), {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: [
+                    '#4f46e5',
+                    '#3b82f6',
+                    '#22c55e',
+                    '#f59e0b',
+                    '#ef4444'
+                ]
+            }]
+        }
+    });
+
+});
+</script>
+{% endblock %}

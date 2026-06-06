@@ -1,0 +1,48 @@
+{% extends "finance/base.html" %}
+
+{% block content %}
+
+<h1>💰 Dashboard</h1>
+
+<!-- TOTAL -->
+<div class="card-custom mb-3">
+    <h5>Total Gasto</h5>
+    <h2 class="text-danger">{{ total }} ₽</h2>
+</div>
+
+<!-- GRAFICO -->
+<div class="card-custom mb-3">
+    <h5>Despesas por categoria</h5>
+    <canvas id="chart"></canvas>
+</div>
+
+<script>
+const labels = JSON.parse('{{ labels|escapejs }}');
+const data = JSON.parse('{{ data|escapejs }}');
+
+new Chart(document.getElementById('chart'), {
+    type: 'doughnut',
+    data: {
+        labels: labels,
+        datasets: [{
+            data: data,
+            backgroundColor: ['#4f46e5','#3b82f6','#22c55e','#f59e0b','#ef4444']
+        }]
+    }
+});
+</script>
+
+<!-- LISTA -->
+<div class="card-custom">
+    <h5>Transações</h5>
+
+    <ul>
+        {% for t in transactions %}
+            <li>{{ t.category }} - {{ t.amount }} €</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<a href="/add/" class="btn btn-primary mt-3">Adicionar despesa</a>
+
+{% endblock %}

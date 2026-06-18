@@ -2,39 +2,39 @@
 
 {% block content %}
 
-<h1>💰 Dashboard</h1>
+<h1>💰 Панель управления</h1>
 
 <!-- TOTAL -->
 <div class="card-custom mb-3">
-    <h5>Total Gasto</h5>
+    <h5>Общие расходы</h5>
     <h2 class="text-danger">{{ total }} ₽</h2>
 </div>
 
 <!-- HOJE / MÊS / ANO -->
 <div class="card-custom mb-3">
-    <h5>Gasto de Hoje</h5>
+    <h5>Расходы за сегодня</h5>
     <h3>{{ total_today }} ₽</h3>
 </div>
 
 <div class="card-custom mb-3">
-    <h5>Gasto do Mês</h5>
+    <h5>Расходы за месяц</h5>
     <h3>{{ total_month }} ₽</h3>
 </div>
 
 <div class="card-custom mb-3">
-    <h5>Gasto do Ano</h5>
+    <h5>Расходы за год</h5>
     <h3>{{ total_year }} ₽</h3>
 </div>
 
 <!-- GRÁFICO -->
 <div class="card-custom mb-3">
-    <h5>Despesas por categoria</h5>
+    <h5>Расходы по категориям</h5>
     <canvas id="chart"></canvas>
 </div>
 
 <!-- LISTA -->
 <div class="card-custom">
-    <h5>Transações</h5>
+    <h5>Транзакции</h5>
 
     <ul>
         {% for t in transactions %}
@@ -43,11 +43,11 @@
     </ul>
 </div>
 
-<a href="/add/" class="btn btn-primary mt-3">Adicionar despesa</a>
+<a href="/add/" class="btn btn-primary mt-3">Добавить расход</a>
 
 <a href="/delete-all/" class="btn btn-danger mt-3"
-   onclick="return confirm('Tens a certeza que queres apagar todas as transações?')">
-    Apagar todas as transações
+   onclick="return confirm('Вы уверены, что хотите удалить все транзакции?')">
+    Удалить все транзакции
 </a>
 
 {% endblock %}

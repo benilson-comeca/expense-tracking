@@ -2,17 +2,17 @@
 
 {% block content %}
 
-<h1>💰 Dashboard</h1>
+<h1>💰 Панель управления</h1>
 
 <!-- TOTAL -->
 <div class="card-custom mb-3">
-    <h5>Total Gasto</h5>
+    <h5>Общие расходы</h5>
     <h2 class="text-danger">{{ total }} ₽</h2>
 </div>
 
-<!-- GRAFICO -->
+<!-- GRÁFICO -->
 <div class="card-custom mb-3">
-    <h5>Despesas por categoria</h5>
+    <h5>Расходы по категориям</h5>
     <canvas id="chart"></canvas>
 </div>
 
@@ -34,15 +34,15 @@ new Chart(document.getElementById('chart'), {
 
 <!-- LISTA -->
 <div class="card-custom">
-    <h5>Transações</h5>
+    <h5>Транзакции</h5>
 
     <ul>
         {% for t in transactions %}
-            <li>{{ t.category }} - {{ t.amount }} €</li>
+            <li>{{ t.category }} - {{ t.amount }} ₽</li>
         {% endfor %}
     </ul>
 </div>
 
-<a href="/add/" class="btn btn-primary mt-3">Adicionar despesa</a>
+<a href="/add/" class="btn btn-primary mt-3">Добавить расход</a>
 
 {% endblock %}

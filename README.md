@@ -1,4 +1,4 @@
-# 💰 Система анализа личных расходов (Cost Analysis)
+# 💰 Система анализа личных расходов (expense-tracking)
 
 ## 📌 Описание
 Веб-приложение для контроля и анализа личных расходов.  
@@ -47,4 +47,4 @@
 
 1. Клонировать репозиторий:
 ```bash
-git clone https://github.com/ваш-username/cost-analysis.git
+git clone https://benilson-comeca/expense-tracking.git

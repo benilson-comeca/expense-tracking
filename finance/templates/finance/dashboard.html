@@ -1,81 +1,113 @@
 {% extends "finance/base.html" %}
-
 {% block content %}
 
-<h1>💰 Панель управления</h1>
+<h1 style="color: white; font-weight: bold; font-size: 60px;">
+    💰 Панель управления
+</h1>
 
-<!-- TOTAL -->
-<div class="card-custom mb-3">
-    <h5>Общие расходы</h5>
-    <h2 class="text-danger">{{ total }} ₽</h2>
+<!-- TABS -->
+<div class="tabs">
+
+    <button onclick="showTab('dashboard')">📊 Главная</button>
+    <button onclick="showTab('calendar')">📅 Календарь</button>
+    <button onclick="showTab('about')">ℹ️ О системе</button>
+
 </div>
 
-<!-- HOJE / MÊS / ANO -->
-<div class="card-custom mb-3">
-    <h5>Расходы за сегодня</h5>
-    <h3>{{ total_today }} ₽</h3>
+<div class="top-bar">
+     <a href="/add/" class="btn btn-primary">
+        + Добавить расход
+    </a>
+
+<!-- ================= DASHBOARD ================= -->
+<div id="dashboard" class="tab-content">
+
+    <div class="card-custom mb-3">
+        <h5>Общие расходы</h5>
+        <h2 class="text-danger">{{ total }} ₽</h2>
+    </div>
+
+    <div class="card-custom mb-3">
+        <h5>Расходы по категориям</h5>
+        <canvas id="chart"></canvas>
+    </div>
+
+    <div class="card-custom">
+        <h5>Транзакции</h5>
+        <ul>
+            {% for t in transactions %}
+                <li>{{ t.date }} - {{ t.category }} - {{ t.amount }} ₽</li>
+            {% endfor %}
+        </ul>
+    </div>
+
 </div>
 
-<div class="card-custom mb-3">
-    <h5>Расходы за месяц</h5>
-    <h3>{{ total_month }} ₽</h3>
+<!-- ================= КАЛЕНДАРЬ ================= -->
+<div id="calendar" class="tab-content" style="display:none;">
+
+    <div class="card-custom">
+        <h3>📅 Календарь расходов</h3>
+
+        <div class="calendar">
+            {% for t in transactions %}
+                <div class="day">
+                    <b>{{ t.date }}</b><br>
+                    {{ t.category }}<br>
+                    {{ t.amount }} ₽
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
 </div>
 
-<div class="card-custom mb-3">
-    <h5>Расходы за год</h5>
-    <h3>{{ total_year }} ₽</h3>
+<!-- ================= О СИСТЕМЕ ================= -->
+<div id="about" class="tab-content" style="display:none;">
+
+    <div class="card-custom">
+        <h3>ℹ️ О системе</h3>
+
+        <p>
+            Эта система предназначена для управления личными расходами.
+        </p>
+
+        <p>
+            ✔ Учёт расходов по дням<br>
+            ✔ Графики расходов<br>
+            ✔ Финансовый календарь<br>
+        </p>
+    </div>
+
 </div>
-
-<!-- GRÁFICO -->
-<div class="card-custom mb-3">
-    <h5>Расходы по категориям</h5>
-    <canvas id="chart"></canvas>
-</div>
-
-<!-- LISTA -->
-<div class="card-custom">
-    <h5>Транзакции</h5>
-
-    <ul>
-        {% for t in transactions %}
-            <li>{{ t.category }} - {{ t.amount }} ₽</li>
-        {% endfor %}
-    </ul>
-</div>
-
-<a href="/add/" class="btn btn-primary mt-3">Добавить расход</a>
-
-<a href="/delete-all/" class="btn btn-danger mt-3"
-   onclick="return confirm('Вы уверены, что хотите удалить все транзакции?')">
-    Удалить все транзакции
-</a>
 
 {% endblock %}
 
 {% block scripts %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+function showTab(tab) {
+    document.querySelectorAll(".tab-content").forEach(el => el.style.display = "none");
+    document.getElementById(tab).style.display = "block";
+}
 
-    const labels = JSON.parse('{{ labels|escapejs }}');
-    const data = JSON.parse('{{ data|escapejs }}');
+// gráfico
+const labels = JSON.parse('{{ labels|escapejs }}');
+const data = JSON.parse('{{ data|escapejs }}');
 
-    new Chart(document.getElementById('chart'), {
-        type: 'doughnut',
-        data: {
-            labels: labels,
-            datasets: [{
-                data: data,
-                backgroundColor: [
-                    '#4f46e5',
-                    '#3b82f6',
-                    '#22c55e',
-                    '#f59e0b',
-                    '#ef4444'
-                ]
-            }]
-        }
-    });
-
+new Chart(document.getElementById('chart'), {
+    type: 'doughnut',
+    data: {
+        labels: labels,
+        datasets: [{
+            data: data,
+            backgroundColor: ['#4f46e5','#3b82f6','#22c55e','#f59e0b','#ef4444']
+        }]
+    }
 });
 </script>
+
 {% endblock %}
